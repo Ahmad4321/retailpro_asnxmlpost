@@ -9,4 +9,3 @@ var controller_1 = require("../controller");
 var router = express_1.default.Router();
 exports.postingVASN = router;
 router.get('/postasn', controller_1.asnPosting); //done
-//# sourceMappingURL=route.js.map

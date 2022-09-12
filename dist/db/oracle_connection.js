@@ -68,4 +68,3 @@ function get_oracle_connection() {
     });
 }
 exports.get_oracle_connection = get_oracle_connection;
-//# sourceMappingURL=oracle_connection.js.map

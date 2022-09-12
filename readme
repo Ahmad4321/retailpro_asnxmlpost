@@ -1,0 +1,26 @@
+# server details
+RP_STORE_IP = #IP
+RP_PORT =  #PORT
+RP_DATABASE = #Schema
+RP_DB_USER_NAME = #username
+RP_DB_PASSWORD = #password
+
+
+# sbs_no
+RP_SBS_NO = #sbs_no
+
+# port for server
+PORT  = #application port
+
+# Read file from ASN
+READASNFILEPATH = #Path
+# SENT file from ASN
+ASNSENTFFILEPATH = #Path/sent
+# XML FIle Path
+AXNXMLFILEPATH = #Path/xml
+# Success Log File
+AXNPASSEDFILEPATH = #Path/logs/posted.txt
+# Fail Log File
+AXNFAILEDFILEPATH = #Path/logs/failed.txt
+
+
