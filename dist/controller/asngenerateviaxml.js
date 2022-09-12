@@ -52,8 +52,9 @@ var fs_1 = __importDefault(require("fs"));
 var oracledb_1 = __importDefault(require("oracledb"));
 var db_1 = require("../db");
 var xmlbuilder_1 = __importDefault(require("xmlbuilder"));
+var date_and_time_1 = __importDefault(require("date-and-time"));
 var asnPosting = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var xmlFile, xmlDir, xmlDir_1, xmlDir_1_1, xmlDirent, e_1_1, connection, dir, files, dir_1, dir_1_1, dirent, e_2_1, vou_sid, vou_no, root, vouchers, fileFlag, _loop_1, files_1, files_1_1, e_3_1, xml, err_1;
+    var xmlFile, xmlDir, xmlDir_1, xmlDir_1_1, xmlDirent, e_1_1, connection, dir, files, dir_1, dir_1_1, dirent, e_2_1, vou_sid, vou_no_1, root, vouchers, fileFlag, countStack, dateNow_1, _loop_1, files_1, files_1_1, e_3_1, xml, err_1;
     var e_1, _a, e_2, _b, e_3, _c, e_4, _d, e_5, _e;
     return __generator(this, function (_f) {
         switch (_f.label) {
@@ -135,22 +136,24 @@ var asnPosting = function (req, res, next) { return __awaiter(void 0, void 0, vo
             case 26: return [7 /*endfinally*/];
             case 27:
                 vou_sid = void 0;
-                vou_no = void 0;
                 root = xmlbuilder_1.default.create('DOCUMENT', { encoding: 'utf-8' });
                 vouchers = root.ele('VOUCHERS');
                 fileFlag = true;
+                countStack = 0;
+                dateNow_1 = date_and_time_1.default.format((new Date()), 'MM-DD-YYYY hh:m:ss A');
+                ;
                 _f.label = 28;
             case 28:
                 _f.trys.push([28, 34, 35, 40]);
                 _loop_1 = function () {
-                    var fileObject, dataJson, purchase_order_header, purchase_order__array_items, item_array, itemFlag, purchase_order__array_items_1, purchase_order__array_items_1_1, array_items, item_get, result_item, b, e_4_1, fetchMaxVouNo, fetchMax, _g, _h, sql, result, sql_store, result_store, voucher, vou_comments, vou_comment, vou_items, count, item_array_1, item_array_1_1, array_items, qty, cost, resultit, ext_cost, vou_item, inventory, e_5_1, error_1;
+                    var fileObject, dataJson, purchase_order_header, purchase_order__array_items, item_array, itemFlag, purchase_order__array_items_1, purchase_order__array_items_1_1, array_items, item_get, result_item, b, e_4_1, fetchMaxVouNo, fetchMax, _g, _h, sql, result, sql_store, result_store, voucher, vou_comments, vou_comment, vou_items, count, item_array_1, item_array_1_1, array_items, qty, cost, resultit, ext_cost, vou_item, inventory, e_5_1, txt, appendF, txt, appendF, error_1;
                     return __generator(this, function (_j) {
                         switch (_j.label) {
                             case 0:
                                 fileObject = files_1_1.value;
                                 _j.label = 1;
                             case 1:
-                                _j.trys.push([1, 44, , 45]);
+                                _j.trys.push([1, 46, , 47]);
                                 return [4 /*yield*/, asnFileOpen(fileObject)];
                             case 2:
                                 dataJson = _j.sent();
@@ -214,15 +217,15 @@ var asnPosting = function (req, res, next) { return __awaiter(void 0, void 0, vo
                                 return [7 /*endfinally*/];
                             case 14: return [7 /*endfinally*/];
                             case 15:
-                                if (!(purchase_order_header && purchase_order__array_items && itemFlag)) return [3 /*break*/, 42];
-                                if (!(vou_sid == null && vou_no == null)) return [3 /*break*/, 21];
+                                if (!(purchase_order_header && purchase_order__array_items && itemFlag)) return [3 /*break*/, 43];
+                                if (!(vou_sid == null && vou_no_1 == null)) return [3 /*break*/, 21];
                                 fetchMaxVouNo = "select to_char(max(vou_sid)) vou_sid,max(vou_no) vou_no from voucher where vou_class = 2";
                                 return [4 /*yield*/, connection.execute(fetchMaxVouNo, {}, { outFormat: oracledb_1.default.OUT_FORMAT_OBJECT
                                     })];
                             case 16:
                                 fetchMax = _j.sent();
                                 if (!((fetchMax.rows).length > 0 && fetchMax.rows[0]['VOU_NO'] != null && fetchMax.rows[0]['VOU_SID'] != null)) return [3 /*break*/, 18];
-                                vou_no = parseInt(fetchMax.rows[0]['VOU_NO']) + 1;
+                                vou_no_1 = parseInt(fetchMax.rows[0]['VOU_NO']) + 1;
                                 _g = parseInt(fetchMax.rows[0]['VOU_SID']);
                                 return [4 /*yield*/, getRandomIntInclusive(6000, 99999)];
                             case 17:
@@ -231,18 +234,18 @@ var asnPosting = function (req, res, next) { return __awaiter(void 0, void 0, vo
                             case 18: return [4 /*yield*/, getRandomIntInclusive(6000000000000000000, 9999999999999999999)];
                             case 19:
                                 vou_sid = _j.sent();
-                                vou_no = parseInt(((vou_no) == null) ? 0 : vou_no) + 1;
+                                vou_no_1 = parseInt(((vou_no_1) == null) ? 0 : vou_no_1) + 1;
                                 _j.label = 20;
                             case 20: return [3 /*break*/, 23];
                             case 21:
-                                vou_no = parseInt(vou_no) + 1;
+                                vou_no_1 = parseInt(vou_no_1) + 1;
                                 _h = parseInt(vou_sid);
                                 return [4 /*yield*/, getRandomIntInclusive(6000, 99999)];
                             case 22:
                                 vou_sid = _h + (_j.sent());
                                 _j.label = 23;
                             case 23:
-                                if (!(vou_sid && vou_no)) return [3 /*break*/, 41];
+                                if (!(vou_sid && vou_no_1)) return [3 /*break*/, 42];
                                 sql = "select * from voucher where note = '" + purchase_order_header.InvoiceNo + "'";
                                 return [4 /*yield*/, connection.execute(sql, {}, { outFormat: oracledb_1.default.OUT_FORMAT_OBJECT
                                     })];
@@ -259,7 +262,7 @@ var asnPosting = function (req, res, next) { return __awaiter(void 0, void 0, vo
                                 voucher.att('vou_sid', vou_sid);
                                 voucher.att('sbs_no', process.env.RP_SBS_NO);
                                 voucher.att('store_no', result_store.rows[0]['STORE_NO']);
-                                voucher.att('vou_no', vou_no);
+                                voucher.att('vou_no', vou_no_1);
                                 voucher.att('vou_type', 0);
                                 voucher.att('vou_class', 2);
                                 voucher.att('vend_code', '1001');
@@ -491,10 +494,11 @@ var asnPosting = function (req, res, next) { return __awaiter(void 0, void 0, vo
                                             console.log("Error Found:", err);
                                         }
                                         else {
+                                            var txt = "{ASN posting start Time at '" + dateNow_1 + "'} \n " + vou_no_1 + " against " + process.env.READASNFILEPATH + "/" + fileObject + " \n {ASN posting start Time at '" + dateNow_1 + "'}";
+                                            var appendF = appendFileWrote(process.env.AXNPASSEDFILEPATH, txt);
                                             // Get the current filenames
                                             // after the function
                                             fs_1.default.unlinkSync(process.env.READASNFILEPATH + '/' + fileObject);
-                                            //    implemnt success message
                                         }
                                     });
                                 }
@@ -506,19 +510,27 @@ var asnPosting = function (req, res, next) { return __awaiter(void 0, void 0, vo
                                 //  store no found
                                 console.log("store not found");
                                 _j.label = 39;
-                            case 39: return [3 /*break*/, 41];
+                            case 39: return [3 /*break*/, 42];
                             case 40:
                                 console.log("Invoice already posted!!");
-                                _j.label = 41;
-                            case 41: return [3 /*break*/, 43];
-                            case 42:
+                                txt = "{ASN posting start Time at '" + dateNow_1 + "'} \n " + result.rows[0]['VOU_NO'] + " against " + process.env.READASNFILEPATH + "/" + fileObject + " \n {ASN posting start Time at '" + dateNow_1 + "'}";
+                                return [4 /*yield*/, appendFileWrote(process.env.AXNPASSEDFILEPATH, txt)];
+                            case 41:
+                                appendF = _j.sent();
+                                _j.label = 42;
+                            case 42: return [3 /*break*/, 45];
+                            case 43:
                                 console.log(process.env.READASNFILEPATH + '/' + fileObject + " : Error");
-                                _j.label = 43;
-                            case 43: return [3 /*break*/, 45];
+                                txt = "{ASN posting start Time at '" + dateNow_1 + "'} \n " + process.env.READASNFILEPATH + "/" + fileObject + " \n {ASN posting start Time at '" + dateNow_1 + "'}";
+                                return [4 /*yield*/, appendFileWrote(process.env.AXNFAILEDFILEPATH, txt)];
                             case 44:
+                                appendF = _j.sent();
+                                _j.label = 45;
+                            case 45: return [3 /*break*/, 47];
+                            case 46:
                                 error_1 = _j.sent();
-                                return [3 /*break*/, 45];
-                            case 45: return [2 /*return*/];
+                                return [3 /*break*/, 47];
+                            case 47: return [2 /*return*/];
                         }
                     });
                 };
@@ -563,6 +575,8 @@ var asnPosting = function (req, res, next) { return __awaiter(void 0, void 0, vo
                                 console.log(err);
                             else {
                                 console.log("File written successfully\n");
+                                var txt = "{ASN posting end Time at '" + dateNow_1 + "'}";
+                                var appendF = appendFileWrote(process.env.AXNPASSEDFILEPATH, txt);
                             }
                         });
                         //file exists
@@ -575,11 +589,11 @@ var asnPosting = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 }
                 return [3 /*break*/, 42];
             case 41:
-                res.status(404).json({ "status": 1, "message": "Db connection , not found!" });
+                res.status(403).json({ "status": 0, "message": "Db connection , not found!" });
                 _f.label = 42;
             case 42: return [3 /*break*/, 44];
             case 43:
-                res.status(404).json({ "status": 1, "message": "Xml file already exist please clear those !" });
+                res.status(404).json({ "status": 2, "message": "Xml file already exist please clear those !" });
                 _f.label = 44;
             case 44: return [3 /*break*/, 46];
             case 45:
@@ -617,6 +631,24 @@ function getRandomIntInclusive(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
             return [2 /*return*/, Math.floor(Math.random() * (max - min + 1) + min)]; // The maximum is inclusive and the minimum is inclusive
+        });
+    });
+}
+function appendFileWrote(filePath, txt) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            try {
+                fs_1.default.appendFile(filePath, txt, function (err) {
+                    if (err) {
+                    }
+                    else {
+                    }
+                });
+            }
+            catch (err) {
+                return [2 /*return*/, err];
+            }
+            return [2 /*return*/];
         });
     });
 }
