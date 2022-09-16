@@ -32,6 +32,7 @@
     "fs": "^0.0.1-security",
     "nodemon": "^2.0.19",
     "oracledb": "^5.4.0",
+    "pm2": "^5.2.0",
     "ts-node": "^10.9.1",
     "tsc-node": "^0.0.3",
     "typescript": "^4.8.2",
